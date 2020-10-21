@@ -1,71 +1,54 @@
-import { TextField } from '@material-ui/core';
-import { red } from '@material-ui/core/colors';
-import React, { Fragment } from 'react';
+import { FormControl, FormGroup, FormLabel, TextField } from '@material-ui/core';
+import React from 'react';
+import { IFormField, RegisterFormKey } from '../types';
 
-interface IdentifySection {
-    form: { 
-        email: {
-            value: string,
-            isValid: boolean
-        }, 
-        firstname: {
-            value: string,
-            isValid: boolean
-        }, 
-        lastname: {
-            value: string,
-            isValid: boolean
-        }
-    }
-    onChange: (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void
+interface IdentitySectionProps {
+  email: IFormField<string>;
+  firstname: IFormField<string>;
+  lastname: IFormField<string>;
+  handleChange: (field: RegisterFormKey, value: string) => void;
 }
 
-class IdentitySection extends React.Component<IdentifySection> {
-
-    constructor(props: IdentifySection) {
-        super(props);
-    }
-
-    render() {
-
-        const {email, firstname, lastname } = this.props.form;
-
-        const styles = {
-            color: "red"
-        }
-
-        return (
-            <Fragment>
-                <h1>IdentifySection</h1>
-                <TextField
-                    error
-                    value={email.value}
-                    name="email"
-                    onChange={this.props.onChange}
-                    required
-                    label="Email"
-                    variant="outlined"
-                    style={styles}
-                />
-                <TextField
-                    value={firstname.value}
-                    name="firstname"
-                    onChange={this.props.onChange}
-                    required
-                    label="Firstname"
-                    variant="outlined"
-                />
-                <TextField
-                    value={lastname.value}
-                    name="lastname"
-                    onChange={this.props.onChange}
-                    required
-                    label="Lastname"
-                    variant="outlined"
-                />
-            </Fragment>
-        )
-    }
+class IdentitySection extends React.Component<IdentitySectionProps> {
+  render(){
+    const { email, firstname, lastname } = this.props;
+    return (
+      <FormControl component="fieldset" fullWidth={true}>
+        <FormLabel component="legend" style={{ margin: '1rem 0' }}>
+          Your identity:
+        </FormLabel>
+        <FormGroup>
+          <TextField
+            required
+            label="Email"
+            variant="outlined"
+            fullWidth={true}
+            value={email.value}
+            onChange={(e) => this.props.handleChange("email", e.target.value)}
+            {...(!email.isValid ? {error: true, helperText: email.error} : {})}
+            />
+          <TextField
+            required
+            label="Firstname"
+            variant="outlined"
+            fullWidth={true}
+            value={firstname.value}
+            onChange={(e) => this.props.handleChange("firstname", e.target.value)}
+            {...(!firstname.isValid ? {error: true, helperText: firstname.error} : {})}
+            />
+          <TextField
+            required
+            label="Lastname"
+            variant="outlined"
+            fullWidth={true}
+            value={lastname.value}
+            onChange={(e) => this.props.handleChange("lastname", e.target.value)}
+            {...(!lastname.isValid ? {error: true, helperText: lastname.error} : {})}
+            />
+        </FormGroup>
+      </FormControl>
+    )
+  }
 }
 
 export default IdentitySection;

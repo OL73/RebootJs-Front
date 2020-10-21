@@ -1,18 +1,19 @@
 import { Container, Box, Button, Grid } from '@material-ui/core';
 import React from 'react';
-import { register } from '../../api/users';
-import { Alert } from '../../Layout/components/Alert';
-import { IFormField, IPasswordField, RegisterFormKey } from '../types';
-import { defaultPasswordFormField, defaultStringFormField } from '../utils/defaultFormField';
-import { validateConfirmationField } from '../utils/validateConfirmationField';
-import { validateEmailField } from '../utils/validateEmailField';
-import { validateNameField } from '../utils/validateNameField';
-import { validatePasswordField } from '../utils/validatePasswordField';
-import CredentialSection from './CredentialSection';
-import IdentitySection from './IdentitySection';
+import { getConnectedUser } from '../../api/users';
+import CredentialSection from '../../Login/components/CredentialSection';
+import IdentitySection from '../../Login/components/IdentitySection';
+import { IFormField, IPasswordField, RegisterFormKey } from '../../Login/types';
+import { defaultStringFormField, defaultPasswordFormField } from '../../Login/utils/defaultFormField';
+import { validateConfirmationField } from '../../Login/utils/validateConfirmationField';
+import { validateEmailField } from '../../Login/utils/validateEmailField';
+import { validateNameField } from '../../Login/utils/validateNameField';
+import { validatePasswordField } from '../../Login/utils/validatePasswordField';
+import { Loading } from '../../Layout/components/Loading';
+import { ErrorScreen } from '../../Layout/components/ErrorScreen';
 
 interface RegisterFormState{
-  status: 'ready' | 'error' | 'success';
+  status: 'error' | 'success' | 'unavailable'
   email: IFormField<string>;
   firstname: IFormField<string>;
   lastname: IFormField<string>;
@@ -20,11 +21,11 @@ interface RegisterFormState{
   confirmation: IFormField<string>;
 }
 
-class RegisterForm extends React.Component<{}, RegisterFormState> {
+class ProfileScreen extends React.Component<{}, RegisterFormState> {
   constructor(props: {}){
     super(props);
     this.state = {
-      status: 'ready',
+      status: 'unavailable',
       email: defaultStringFormField(),
       firstname: defaultStringFormField(),
       lastname: defaultStringFormField(),
@@ -33,6 +34,33 @@ class RegisterForm extends React.Component<{}, RegisterFormState> {
     }
   }
 
+  componentDidMount(){
+    getConnectedUser()
+      .then(user => {
+        this.setState({
+          status: 'success',
+          email:{
+            ...this.state.email,
+            value: user.email
+          },
+          firstname: {
+            ...this.state.firstname,
+            value: user.firstname
+          },
+          lastname: {
+            ...this.state.lastname,
+            value: user.lastname
+          }
+        })
+      })
+      .catch(err => {
+        this.setState({
+          status: 'error'
+        })
+      })
+  }
+
+  // TODO Est-ce que le password est required ?
   handleChange = (field: RegisterFormKey, newValue: string) => {
     const newState = {
       ...this.state,
@@ -58,33 +86,26 @@ class RegisterForm extends React.Component<{}, RegisterFormState> {
     this.setState(newState);
   }
 
+  // TODO Mettre à jour avec le patch
   handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const { email, firstname, lastname, password, confirmation } = this.state
     if(email.isValid && firstname.isValid && lastname.isValid && password.isValid && confirmation.isValid){
-      register(email.value, firstname.value, lastname.value, password.value).then(
-        user => {
-          this.setState({
-            status: 'success'
-          })
-        });
+      //register(...this.state).then((user) => alert(user.firstname));
     }
   }
 
 
   render(){
-    const { status, email, firstname, lastname, password, confirmation } = this.state;
-    return (
-      <Container maxWidth="sm">
-        <Box style={{ margin: '2rem 0' }}>
-          <Alert
-            status={status}
-            error="Something happened !"
-            success={`You're registered ${firstname.value}! Please login`}
-          />
-        </Box>
-        <form onSubmit={this.handleSubmit}>
+    const { email, firstname, lastname, password, confirmation, status } = this.state;
+    if(status === "error") {
+      return <ErrorScreen errorMessage='Sorry, you need to be connected to access this page' />
+    } else if (status === "unavailable"){
+      return <Loading />
+    } else {
+      return <Container maxWidth="sm">
+        <form >
           <Box style={{margin: "2rem 0"}}>
             <IdentitySection
               email={email}
@@ -108,15 +129,15 @@ class RegisterForm extends React.Component<{}, RegisterFormState> {
                   color="primary"
                   variant="contained"
                 >
-                  Register
+                  Update Profile
                 </Button>
               </Grid>
             </Grid>
           </Box>
         </form>
       </Container>
-    )
+    }
   }
 }
 
-export default RegisterForm;
+export default ProfileScreen;

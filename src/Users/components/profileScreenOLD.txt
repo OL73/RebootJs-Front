@@ -1,0 +1,204 @@
+// import { Container, Button } from '@material-ui/core';
+// import React from 'react';
+// import history from '../../history';
+// import { nameKey } from '../../login/types';
+// import { valideEmailField, valideNameField } from '../../login/utils/valideRegisterFieldsOLD';
+// import CredentialsSection from '../../login/components/credentialsSection';
+// import IdentitySection from '../../login/components/identitySection';
+
+
+
+// export interface RegisterState {
+//     form: {
+//         email: {
+//             value: string,
+//             isValid: boolean,
+//             error: string
+//         };
+//         firstname: {
+//             value: string,
+//             isValid: boolean,
+//             error: string
+//         };
+//         lastname: {
+//             value: string,
+//             isValid: boolean,
+//             error: string
+//         };
+//         password: {
+//             value: string,
+//             isValid: boolean,
+//             isContainsLowercase: boolean,
+//             isContainsUppercase: boolean,
+//             isContainsNumbers: boolean,
+//             isContainsSymbols: boolean,
+//             isContainsMinMaxCaracters: boolean
+//         };
+//         confirmPassword: {
+//             value: string,
+//             isValid: boolean,
+//             error: string
+//         };
+//     }
+// }
+
+// class ProfileScreen extends React.Component<{}, RegisterState> {
+
+//     constructor(props: {}) {
+//         super(props);
+//         this.state = {
+//             form: {
+//                 email: {
+//                     value: "",
+//                     isValid: false,
+//                     error: ""
+//                 },
+//                 firstname: {
+//                     value: "",
+//                     isValid: false,
+//                     error: ""
+//                 },
+//                 lastname: {
+//                     value: "",
+//                     isValid: false,
+//                     error: ""
+//                 },
+//                 password: {
+//                     value: "",
+//                     isValid: false,
+//                     isContainsLowercase: false,
+//                     isContainsUppercase: false,
+//                     isContainsNumbers: false,
+//                     isContainsSymbols: false,
+//                     isContainsMinMaxCaracters: false
+//                 },
+//                 confirmPassword: {
+//                     value: "",
+//                     isValid: false,
+//                     error: ""
+//                 },
+//             }
+//         }
+//     }
+
+//     handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+//         e.preventDefault();
+
+//         const { email, firstname, lastname, password, confirmPassword } = this.state.form;
+
+//         if (email.isValid && firstname.isValid && lastname.isValid && password.isValid && confirmPassword.isValid) {
+
+//             console.log('submitted');
+//             history.push('/');
+//         }
+//     }
+
+//     handleChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+//         const form = { ...this.state.form };
+
+//         form[e.currentTarget.name as nameKey].value = e.currentTarget.value.toLowerCase();
+
+//         if (form[e.currentTarget.name as "email"] === form.email) {
+
+//             form[e.currentTarget.name as "email"].isValid = valideEmailField(e.currentTarget.value);
+//             if (!form[e.currentTarget.name as "email"].isValid) {
+//                 form[e.currentTarget.name as "email"].error = "Email format is invalid...";
+//             }
+//         }
+
+//         if (form[e.currentTarget.name as nameKey] === form.firstname) {
+
+//             form[e.currentTarget.name as "firstname"].isValid = valideNameField(e.currentTarget.value);
+//             if (!form[e.currentTarget.name as "firstname"].isValid) {
+//                 form[e.currentTarget.name as "firstname"].error = "Expected letters like a...z";
+//             }
+//         }
+
+//         if (form[e.currentTarget.name as nameKey] === form.lastname) {
+
+//             form[e.currentTarget.name as "lastname"].isValid = valideNameField(e.currentTarget.value);
+//             if (!form[e.currentTarget.name as "lastname"].isValid) {
+//                 form[e.currentTarget.name as "lastname"].error = "Expected letters like a...z";
+//             }
+//         }
+
+//         this.setState({ form });
+//     }
+
+//     handleChangePassword = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+//         const form = { ...this.state.form };
+//         const { password, confirmPassword } = form;
+
+//         const containLowercase = new RegExp('(?=.*[a-z])');
+//         const containUppercase = new RegExp('(?=.*[A-Z])');
+//         const containNumbers = new RegExp('(?=.*[0-9])');
+//         const containSymbols = new RegExp('(?=.[!@#$%^&])');
+//         const containMinMaxCaracters = new RegExp('(?=.{8,})');
+
+//         form[e.currentTarget.name as nameKey].value = e.currentTarget.value;
+
+//         if (form[e.currentTarget.name as "password"] === form.password) {
+
+//             if (containLowercase.test(e.currentTarget.value)) {
+//                 form[e.currentTarget.name as "password"].isContainsLowercase = true;
+//             }
+//             if (containUppercase.test(e.currentTarget.value)) {
+//                 form[e.currentTarget.name as "password"].isContainsUppercase = true;
+//             }
+//             if (containNumbers.test(e.currentTarget.value)) {
+//                 form[e.currentTarget.name as "password"].isContainsNumbers = true;
+//             }
+//             if (containSymbols.test(e.currentTarget.value)) {
+//                 form[e.currentTarget.name as "password"].isContainsSymbols = true;
+//             }
+//             if (containMinMaxCaracters.test(e.currentTarget.value)) {
+//                 form[e.currentTarget.name as "password"].isContainsMinMaxCaracters = true;
+//             }
+
+//             if (password.isContainsLowercase && password.isContainsUppercase && password.isContainsNumbers && password.isContainsSymbols && password.isContainsMinMaxCaracters) {
+//                 password.isValid = true;
+//             }
+//         }
+
+//         if (form[e.currentTarget.name as "confirmPassword"] === form.confirmPassword) {
+
+//             if (password.value !== confirmPassword.value) {
+//                 form[e.currentTarget.name as "confirmPassword"].error = "Confirm password and password are not same..."
+//             } else {
+//                 confirmPassword.isValid = true;
+//             }
+//         }
+
+//         this.setState({ form });
+//     }
+
+
+//     render() {
+
+//         const { email, firstname, lastname, password, confirmPassword } = this.state.form;
+
+//         return (
+//             <Container maxWidth="sm">
+//                 <form onSubmit={this.handleSubmit} >
+//                     <IdentitySection
+//                         form={{ email, firstname, lastname }}
+//                         onChange={this.handleChange}
+//                     />
+//                     <CredentialsSection
+//                         form={{ password, confirmPassword }}
+//                         onChangePassword={this.handleChangePassword}
+//                     />
+//                     <Button
+//                         type="submit"
+//                         color="primary"
+//                         variant="contained"
+//                     >
+//                         Submit
+//                     </Button>
+//                 </form>
+//             </Container>
+//         )
+//     }
+// }
+
+// export default ProfileScreen;

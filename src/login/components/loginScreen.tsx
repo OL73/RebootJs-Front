@@ -1,8 +1,8 @@
-import { AppBar, Tabs, Tab } from '@material-ui/core';
-import React, { Fragment } from 'react';
-import LoginForm from './loginForm';
-import RegisterForm from './registerForm';
-import TabPanel from './tabPanel';
+import { Tabs, Tab, Container } from '@material-ui/core';
+import React from 'react';
+import LoginForm from './LoginForm';
+import RegisterForm from './RegisterForm';
+import TabPanel from './TabPanel';
 
 interface LoginScreenState{
   selectedTab: number;
@@ -24,20 +24,22 @@ class LoginScreen extends React.Component<{}, LoginScreenState> {
   render(){
     const selectedTab = this.state.selectedTab;
     return (
-    <Fragment>
-      <AppBar position="static">
-        <Tabs value={selectedTab} onChange={this.handleChange} aria-label="simple tabs example">
-          <Tab label="Login" />
-          <Tab label="Register" />
-        </Tabs>
-      </AppBar>
+    <Container maxWidth="lg" style={{marginTop: '2rem'}} >
+      <Tabs
+        value={selectedTab}
+        onChange={this.handleChange}
+        variant="fullWidth"
+      >
+        <Tab label="Login" />
+        <Tab label="Register" />
+      </Tabs>
       <TabPanel value={selectedTab} index={0}>
         <LoginForm />
       </TabPanel>
       <TabPanel value={selectedTab} index={1}>
         <RegisterForm />
       </TabPanel>
-    </Fragment>)
+    </Container>)
   }
 }
 

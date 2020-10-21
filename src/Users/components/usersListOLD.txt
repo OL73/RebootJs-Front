@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
-import User from './user';
-import { getUsers } from './../../api/users';
+/* import React, { Component } from 'react'
+import User from './userOLD';
+import { getUsers } from '../../api/users';
 import { IUser } from '../types';
 import { List } from '@material-ui/core';
 
@@ -14,14 +14,6 @@ class Users extends Component<{}, IUsersState> {
         this.state = { users: [] };
     }
 
-    /* async getUsers() {
-
-        const users = await axios.get('http://localhost:3000/api/users')
-            .then(res => res.data)
-        console.log(users);
-
-        this.setState({ users });
-    } */
 
     componentDidMount() {
         getUsers().then(users => {
@@ -42,15 +34,6 @@ class Users extends Component<{}, IUsersState> {
             return (
                 <div className="my-3">
                     <h1 className="text-center">Flint Messenger Users</h1>
-                    {/* <ul className="list-group row">
-                        {this.state.users.map((user, index) => (
-                            <User
-                                key={user.email}
-                                user={user}
-                                index={index}
-                            />)
-                        )}
-                    </ul> */}
                     <List>
                         {this.state.users.map((user, index) => (
                             <User
@@ -67,4 +50,4 @@ class Users extends Component<{}, IUsersState> {
     }
 }
 
-export default Users;
+export default Users; */

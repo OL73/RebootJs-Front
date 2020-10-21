@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import AppLayout from './layout/appLayout';
+import AppLayout from './Layout/components/AppLayout';
 import { Router } from 'react-router-dom';
 import history from './history';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
@@ -10,7 +10,7 @@ const theme = createMuiTheme({
   palette: {
     primary: orange,
     secondary: {
-      main: "#000"
+      main: "#B4B0B0"
     },
     error: red,
   },

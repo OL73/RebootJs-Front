@@ -6,7 +6,7 @@ export async function getConversations(): Promise<IConversation[]> {
   // TODO
   // axios vers le back pour récuperer les messages
   const res = await axios.get('http://localhost:3000/api/messages', { withCredentials: true });
-  const messages : IConversationMessage[] = res.data;
+  const messages: IConversationMessage[] = res.data;
 
   // processus de transformation des messages -> une liste de conversations
 
@@ -14,14 +14,14 @@ export async function getConversations(): Promise<IConversation[]> {
   // 2eme étape : Créer les types depuis la liste de messages, restructure
 
   // 1ere etape : Reduce pour creer un objet (equivalent au resultat d'un groupBy) qui groupe les messages par conversationId
-  const accInit : { [conversationId: string]: IConversationMessage[] } = {};// todo;
+  const accInit: { [conversationId: string]: IConversationMessage[] } = {};
   const batches = messages.reduce(
     (acc, message) => {
       // Regarder le conversationId
       // Mettre le message au bon endroit dans l'accumulateur
       const convId = message.conversationId;
-      if(acc[convId] === undefined){
-        acc[convId] = [ message ]
+      if (acc[convId] === undefined) {
+        acc[convId] = [message]
       } else {
         acc[convId].push(message)
       }
@@ -38,27 +38,34 @@ export async function getConversations(): Promise<IConversation[]> {
   // 2eme étape : Créer les types depuis la liste de messages, restructure
   // { 123: [message, message2], 12345: [xxx], 1234: [xxx] } => [ conversation1, conversation2 ]
 
- const conversations : IConversation[] = [];
- for(const key in batches){
-   const value = batches[key];
-   // 123 => key
-   // [message, message2] => value
-   const targetsNonDistincts = messages.flatMap(message => [message.emitter, ...message.targets]);
-   const targets = [...new Set(targetsNonDistincts)];
-   // message : [emitter, target1, target2]
-   // message2: [emitter2, target3, target4]
-   // [[emitter, target1, target2],[emitter2, target3, target4]] => [emitter, target1, target2, emitter2, target3, target4]
-   const updatedAt = messages.sort()[0].createdAt; // TODO completer sort
-   conversations.push({
-     _id: key,
-     targets: targets,
-     updatedAt: updatedAt,
-     unseenMessages: 0,
-     messages: value
-   })
- }
+  const conversations: IConversation[] = [];
+  for (const key in batches) {
+    const value = batches[key];
+    // 123 => key
+    // [message, message2] => value
+    const targetsNonDistincts = value.flatMap(message => [message.emitter, ...message.targets]);
+    const targets = [...new Set(targetsNonDistincts)];
+    // message : [emitter, target1, target2]
+    // message2: [emitter2, target3, target4]
+    // [[emitter, target1, target2],[emitter2, target3, target4]] => [emitter, target1, target2, emitter2, target3, target4]
+    const sortedMessages = value.sort((message1, message2) => {
+      const date1 = message1.createdAt
+      const date2 = message2.createdAt
 
- return conversations;
+      return date1 <= date2 ? 1 : -1;
+      //return date2.valueOf() - date1.valueOf();
+    })
+    const updatedAt = sortedMessages[0].createdAt;
+    conversations.push({
+      _id: key,
+      targets: targets,
+      updatedAt: updatedAt,
+      unseenMessages: 0,
+      messages: sortedMessages
+    })
+  }
+
+  return conversations;
 
   /* return Promise.resolve([{
     _id: '1234',
@@ -104,4 +111,14 @@ export async function getConversations(): Promise<IConversation[]> {
       content: 'yep !',
     }]
   }]) */
+}
+
+export function register(conversationId: string, content: string, targets: string[]): Promise<IConversationMessage> {
+  return axios.post(
+    'http://localhost:3000/api/messages/',
+    { conversationId, content, targets },
+    {
+      withCredentials: true
+    }
+  ).then(res => res.data)
 }

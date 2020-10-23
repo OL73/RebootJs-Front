@@ -5,6 +5,8 @@ import { Router } from 'react-router-dom';
 import history from './history';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import { orange, red } from '@material-ui/core/colors';
+import store from './store';
+import { Provider } from 'react-redux';
 
 const theme = createMuiTheme({
   palette: {
@@ -18,11 +20,13 @@ const theme = createMuiTheme({
 
 function App() {
   return (
-    <Router history={history}>
-      <ThemeProvider theme={theme}>
-        <AppLayout />
-      </ThemeProvider>
-    </Router>
+    <Provider store={store}>
+      <Router history={history}>
+        <ThemeProvider theme={theme}>
+          <AppLayout />
+        </ThemeProvider>
+      </Router>
+    </Provider>
   );
 }
 

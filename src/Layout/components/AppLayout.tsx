@@ -4,6 +4,9 @@ import AppContent from './AppContent';
 import AppDrawer, { drawerWidth } from './AppDrawer';
 import AppMenu from './AppMenu';
 import { DrawerContentString } from '../types';
+import { makeFetchConnectedUser } from '../../Users/actions/makeFetchConnectedUser';
+import { connect } from 'react-redux';
+import { makeFetchUsersList } from '../../Users/actions/makeFetchUsersList';
 
 interface AppLayoutState {
   drawerOpened: boolean;
@@ -12,6 +15,8 @@ interface AppLayoutState {
 
 interface AppLayoutProps {
   classes: any;
+  getConnectedUser: () => void;
+  getUsers: () => void;
 }
 
 const style = (theme: Theme) => createStyles({
@@ -58,6 +63,10 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
       drawerOpened: !this.state.drawerOpened
     })
   } */
+  componentDidMount() {
+    this.props.getConnectedUser();
+    this.props.getUsers();
+  }
 
   render(){
     const contentClasses = [
@@ -82,4 +91,10 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
   }
 }
 
-export default withStyles(style)(AppLayout);
+// TODO ThunkAction<void, IAppState, unknown, Action<string>>
+const mapDispatchToProps = (dispatch: any) => ({
+  getConnectedUser: () => { dispatch(makeFetchConnectedUser())}, // attention préaction avant l'updateUser
+  getUsers: () => { dispatch(makeFetchUsersList())}
+})
+
+export default connect(undefined, mapDispatchToProps)(withStyles(style)(AppLayout));

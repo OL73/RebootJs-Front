@@ -1,28 +1,9 @@
-import React, { Fragment } from 'react'
-import UsersListItem from '../../Users/components/UsersListItem';
-import ContactName from './ContactName';
+import { List } from '@material-ui/core';
+import UserDetails from '../../Users/components/UserDetails'
+import React from 'react';
 
-export interface AttendeesListProps {
-    users: string[]
+export function AttendeesList({users} : {users: string[]}){
+  return <List>
+    {users.map((userId,index) => <UserDetails key={index} id={userId} />)}
+  </List>
 }
-
-const AttendeesList: React.SFC<AttendeesListProps> = ({ users }) => {
-    return (
-        <div>
-            {users.map((user, index) => (
-                <Fragment key={index}>
-                    {/* <UsersListItem
-                        key = { user }
-                        user = { user }
-                    /> */}
-                    <ContactName
-                        key={index}
-                        user={user}
-                    />
-                </Fragment>
-            ))}
-        </div>
-    );
-}
-
-export default AttendeesList;

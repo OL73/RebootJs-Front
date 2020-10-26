@@ -1,100 +1,58 @@
 import React, { Fragment } from 'react';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { getConversations } from '../../api/messages';
+import { IAppState } from '../../appReducer';
 import { Loading } from '../../Layout/components/Loading';
+import ChatInput from './ChatInput';
 import { IConversation } from './../types';
-import AttendeesList from './AttendeesList';
-import ChatMessages from './ChatMesssages';
+//import { makeFetchConversationsList } from './actions/makeFetchConversations';
+import {AttendeesList} from './AttendeesList';
+import {ChatMessages} from './ChatMesssages';
 
 interface ChatScreenProps {
   match: any;
   history: any;
   location: any;
-}
-
-interface ChatScreenState {
   conversation?: IConversation;
-  newMessage: string
 }
 
-class ChatScreen extends React.Component<ChatScreenProps, ChatScreenState> {
 
-  constructor(props: ChatScreenProps) {
-    super(props);
-    this.state = {
-      newMessage: ""
-    }
-  }
+class ChatScreen extends React.Component<ChatScreenProps> {
 
   componentDidMount() {
-    getConversations().then(conversations => {
+    /* getConversations().then(conversations => {
       console.log('conversations object', conversations);
       const conversationID = this.props.match.params.conversationID;
 
       this.setState({
         conversation: conversations.find(conv => conv._id === conversationID) // routage vers id
       })
-    })
-  }
-
-  componentDidUpdate(prevProps: ChatScreenProps) {
-
-    if (prevProps.match.params.conversationID !== this.props.match.params.conversationID) {
-
-      getConversations().then(conversations => {
-        console.log('conversations object', conversations);
-        const conversationID = this.props.match.params.conversationID;
-  
-        this.setState({
-          conversation: conversations.find(conv => conv._id === conversationID) // routage vers id
-        })
-      })
-    }
+    }) */
+    //this.props.getConversations();
 
   }
 
-  handleChange = (newMessage: string) => {
-    console.log(newMessage);
-    
-    this.setState({
-      newMessage
-    }); 
-  }
-
-  handleSubmit = () => {
-
-    if (this.state.conversation) {
-
-      const conversations = { ...this.state.conversation};
-
-      /* [...conversations.messages, {
-        emitter: // login user
-        content: this.state.newMessage,
-        conversationID: this.state.conversation._id,
-        targets:
-        createdAt: Date.now()
-      }] */
-    }
-  }
-
-
-  render() {
-    if (this.state.conversation === undefined) return <Loading />
+  render(){
+    const { conversation } = this.props;
+    if(!conversation) return <Loading />
 
     return (
       <Fragment>
         <h1>Chat</h1>
-        <ChatMessages
-          messages={this.state.conversation?.messages}
-          onChange={this.handleChange}
-          onSubmit={this.handleSubmit}
-        />
-        <AttendeesList
-          users={this.state.conversation.targets}
-        />
+        <ChatMessages messages={conversation.messages} />
+        <ChatInput conversation={conversation} />
+        <AttendeesList users={conversation.targets}/>
       </Fragment>
     )
   }
 }
 
-export default withRouter(ChatScreen);
+const mapStoreToProps = ({conversations}: IAppState, props: ChatScreenProps) => {
+  const conversationID = props.match.params.conversationID;
+
+  return {
+    conversation: conversations.list.find(conv => conv._id === conversationID)
+  }
+}
+
+export default connect(mapStoreToProps)(withRouter(ChatScreen));

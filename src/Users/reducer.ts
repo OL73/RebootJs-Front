@@ -8,7 +8,6 @@ export function users(state: IUsersState = defaultUsersState(), action: IUsersAc
         connectedUser: action.user
       }
     case UPDATED_USERS_LIST:
-
         return {
             ...state,
           list : action.users,

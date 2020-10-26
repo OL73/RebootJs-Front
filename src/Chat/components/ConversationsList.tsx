@@ -1,49 +1,31 @@
 import { List } from '@material-ui/core';
 import React from 'react';
-import { getConversations } from '../../api/messages';
-import history from '../../history';
+import { connect } from 'react-redux';
+import { IAppState } from '../../appReducer';
 import { Loading } from '../../Layout/components/Loading';
 import { IConversation } from '../types';
 import ConversationsListItem from './ConversationsListItem';
 
-export interface ConversationsListState {
-    conversations: IConversation[];
+export interface ConversationsListProps {
+    conversations: IConversation[]
 }
 
-class ConversationsList extends React.Component<{}, ConversationsListState> {
-    constructor(props: {}) {
-        super(props);
-        this.state = {
-            conversations: []
-        };
-    }
+class ConversationsList extends React.Component<ConversationsListProps, {}> {
 
-    componentDidMount() {
-        getConversations().then(conversations => {
-
-            this.setState({
-                conversations
-            })
-        })
-    }
-
-    showDetailsMessage = (id: string) => {
+    /* showDetailsMessage = (id: string) => { ==> logique déplacée dans ConversationsListitem
         console.log('conversationId', id);
-        console.log('click');
         history.push(`/conversation/${id}`);       
-        
-    }
+    } */
 
     render() {
-        if (this.state.conversations.length === 0) return <Loading />
+        if (this.props.conversations.length === 0) return <Loading />
 
         return (
             <List>
-                {this.state.conversations.map((conversation, index) => 
+                {this.props.conversations.map((conversation, index) => 
                     <ConversationsListItem 
                         key={index} 
                         conversation={conversation}
-                        onClick={() => this.showDetailsMessage(conversation._id)}
                     />
                 )}
             </List>
@@ -51,4 +33,8 @@ class ConversationsList extends React.Component<{}, ConversationsListState> {
     }
 }
 
-export default ConversationsList;
+const mapStoreToProps = (state: IAppState) => ({
+    conversations: state.conversations.list
+})
+
+export default connect(mapStoreToProps)(ConversationsList);

@@ -1,7 +1,9 @@
 export interface IUser {
+  _id: string;
   firstname: string;
   lastname: string;
   email: string;
+  conversationsSeen: {[convId: string]: Date};
 }
 
 export interface IUsersState {
@@ -13,7 +15,7 @@ export const UPDATE_CONNECTED_USER = 'UPDATE_CONNECTED_USER';
 export const UPDATED_USERS_LIST = 'UPDATED_USERS_LIST';
 
 export interface IUpdateConnectedUserAction {
-  type: typeof UPDATE_CONNECTED_USER
+  type: typeof UPDATE_CONNECTED_USER,
   user: IUser
 }
 

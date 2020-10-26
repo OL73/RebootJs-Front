@@ -4,19 +4,18 @@ import AppContent from './AppContent';
 import AppDrawer, { drawerWidth } from './AppDrawer';
 import AppMenu from './AppMenu';
 import { DrawerContentString } from '../types';
-import { makeFetchConnectedUser } from '../../Users/actions/makeFetchConnectedUser';
-import { connect } from 'react-redux';
-import { makeFetchUsersList } from '../../Users/actions/makeFetchUsersList';
 
 interface AppLayoutState {
   drawerOpened: boolean;
   drawerContent?: DrawerContentString;
+  // timer?: NodeJS.Timeout; ===============> logique déplacée dans makeInitApp()
 }
 
 interface AppLayoutProps {
   classes: any;
-  getConnectedUser: () => void;
+  /* getConnectedUser: () => void; ===============> logique déplacée dans makeInitApp()
   getUsers: () => void;
+  getConversationsList: () => void; */
 }
 
 const style = (theme: Theme) => createStyles({
@@ -58,15 +57,20 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
     })
   }
 
-  /* toggleChat = () => {
-    this.setState({
-      drawerOpened: !this.state.drawerOpened
-    })
-  } */
-  componentDidMount() {
+  // TODO refacto InitApp avec toutes les get...
+  /* componentDidMount() {  ===============> logique déplacée dans makeInitApp()
     this.props.getConnectedUser();
     this.props.getUsers();
+    this.props.getConversationsList();
+
+    this.setState({
+      timer: setInterval(() => { this.props.getConversationsList() }, 3000)
+    });
   }
+
+  componentWillUnmount() {
+    if(this.state.timer) { clearInterval(this.state.timer) };
+  } */
 
   render(){
     const contentClasses = [
@@ -92,9 +96,11 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
 }
 
 // TODO ThunkAction<void, IAppState, unknown, Action<string>>
-const mapDispatchToProps = (dispatch: any) => ({
+/* const mapDispatchToProps = (dispatch: any) => ({ ===============> logique déplacée dans makeInitApp()
   getConnectedUser: () => { dispatch(makeFetchConnectedUser())}, // attention préaction avant l'updateUser
-  getUsers: () => { dispatch(makeFetchUsersList())}
-})
+  getUsers: () => { dispatch(makeFetchUsersList())},
+  getConversationsList: () => { dispatch(makeFetchConversationsList())}
+}) */
 
-export default connect(undefined, mapDispatchToProps)(withStyles(style)(AppLayout));
+// export default connect(undefined, mapDispatchToProps)(withStyles(style)(AppLayout)); ===============> logique déplacée dans makeInitApp()
+export default withStyles(style)(AppLayout)

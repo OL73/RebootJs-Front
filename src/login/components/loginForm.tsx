@@ -1,14 +1,20 @@
 import { Box, Button, Container, Grid, TextField } from '@material-ui/core';
 import React from 'react';
+import { connect } from 'react-redux';
 import { login } from '../../api/users';
 import history from '../../history';
+import { makeInitApp } from '../../Layout/actions/makeInitApp';
+
+interface LoginFormProps {
+  initApp: () => void;
+}
 
 interface LoginFormState {
   email: string;
   password: string;
 }
-class LoginForm extends React.Component<{}, LoginFormState> {
-  constructor(props: {}){
+class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
+  constructor(props: LoginFormProps){
     super(props)
     this.state = {
       email: "",
@@ -23,11 +29,14 @@ class LoginForm extends React.Component<{}, LoginFormState> {
     })
   }
 
-  handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    login(this.state.email, this.state.password)
+    await login(this.state.email, this.state.password)
       .then(_user => history.push('/profile'));
+
+    // déclenchement de makeInitMap() getConnectionsList() + getUsersList() + getConnectedUser() + timer
+    this.props.initApp();
   }
 
   render(){
@@ -73,4 +82,7 @@ class LoginForm extends React.Component<{}, LoginFormState> {
   }
 }
 
-export default LoginForm;
+const mapDispatchToProps = (dispatch: any) => ({
+  initApp: () => dispatch(makeInitApp())
+})
+export default connect(undefined, mapDispatchToProps)(LoginForm);

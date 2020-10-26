@@ -1,15 +1,10 @@
-import React from 'react'
+import React from 'react';
+import { IConversationMessage } from "../types";
 
-export interface ChatMessageProps {
-    content: string;
+export function ChatMessage({message} : {message:IConversationMessage}){
+
+    
+  return (
+  <h5>{/* TODO Emitter: {message.emitter} -  */}Message: {message.content}</h5>
+  )
 }
- 
-const ChatMessage: React.SFC<ChatMessageProps> = ({content}) => {
-    return ( 
-        <div>
-            <p>{content}</p>
-        </div>
-     );
-}
- 
-export default ChatMessage;

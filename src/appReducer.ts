@@ -1,8 +1,10 @@
 import { combineReducers } from "redux";
-import { users } from './Users/reducer'
+import { users } from './Users/reducer';
+import { conversations } from './Chat/reducer';
 
 export const appReducer = combineReducers({
-  users
+  users,
+  conversations
 });
 
 export type IAppState = ReturnType<typeof appReducer>

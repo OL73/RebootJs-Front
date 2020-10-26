@@ -48,21 +48,14 @@ export async function getConversations(): Promise<IConversation[]> {
     // message : [emitter, target1, target2]
     // message2: [emitter2, target3, target4]
     // [[emitter, target1, target2],[emitter2, target3, target4]] => [emitter, target1, target2, emitter2, target3, target4]
-    const sortedMessages = value.sort((message1, message2) => {
-      const date1 = message1.createdAt
-      const date2 = message2.createdAt
-
-      return date1 <= date2 ? 1 : -1;
-      //return date2.valueOf() - date1.valueOf();
-    })
-    const updatedAt = sortedMessages[0].createdAt;
+    const updatedAt = messages.sort()[0].createdAt; // TODO completer sort
     conversations.push({
       _id: key,
       targets: targets,
       updatedAt: updatedAt,
       unseenMessages: 0,
-      messages: sortedMessages
-    })
+      messages: value
+    });
   }
 
   return conversations;
@@ -113,12 +106,11 @@ export async function getConversations(): Promise<IConversation[]> {
   }]) */
 }
 
-export function register(conversationId: string, content: string, targets: string[]): Promise<IConversationMessage> {
-  return axios.post(
-    'http://localhost:3000/api/messages/',
-    { conversationId, content, targets },
-    {
-      withCredentials: true
-    }
-  ).then(res => res.data)
+export async function sendMessage(content: string, conversationId: string, targets: string[]): Promise<IConversationMessage> {
+  const res = await axios.post(
+    'http://localhost:3000/api/messages',
+    { content, conversationId, targets },
+    { withCredentials: true }
+  );
+  return res.data;
 }

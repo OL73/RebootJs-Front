@@ -1,24 +1,33 @@
-import { IconButton } from '@material-ui/core';
+import { Badge, IconButton } from '@material-ui/core';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import ChatIcon from '@material-ui/icons/Chat';
 import { DrawerContentString } from '../types';
+import { IAppState } from '../../appReducer';
+import { connect } from 'react-redux';
 
 interface ChatButtonProps {
 
     toggleDrawer: (content: DrawerContentString) => void;
+    unseenMessage: number;
 }
 
 
-const ChatButton: React.SFC<ChatButtonProps> = ({toggleDrawer}) => {
+const ChatButton: React.FunctionComponent<ChatButtonProps> = ({ toggleDrawer, unseenMessage }) => {
     return (
-        <Link to="/conversation">
-            <IconButton aria-label="conversation" onClick={e => toggleDrawer('conversations')}>
-                <ChatIcon fontSize="large" />
-            </IconButton>
-        </Link>
 
+        <Link to="/conversation">
+            <Badge badgeContent={unseenMessage} color="secondary">
+                <IconButton aria-label="conversation" onClick={e => toggleDrawer('conversations')}>
+                    <ChatIcon fontSize="large" />
+                </IconButton>
+            </Badge>
+        </Link>
     );
 }
 
-export default ChatButton;
+const mapStateToProps = ({ conversations }: IAppState) => ({
+    unseenMessage: conversations.totalUnseenMessages
+})
+
+export default connect(mapStateToProps)(ChatButton);

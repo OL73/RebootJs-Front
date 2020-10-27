@@ -31,7 +31,7 @@ export function ChatMessages({messages, conversationId, makeUpdateConversationSe
     () => {
       makeUpdateConversationSeen(conversationId)
     },
-    [messages, conversationId, makeUpdateConversationSeen]
+    [messages.length]
   )
 
   return (

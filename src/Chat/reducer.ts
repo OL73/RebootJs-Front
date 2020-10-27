@@ -4,7 +4,9 @@ export function conversations(state: IConversationsState = defaultConversation()
     switch (action.type) {
         case UPDATE_CONVERSATIONS_LIST:
             return {
-                ...state, list: action.conversations
+                ...state, 
+                    list: action.conversations,
+                    totalUnseenMessages: action.conversations.reduce((acc, conv) => acc + conv.unseenMessages, 0) // permet de cumuler le nombre de messages non lus
             }
         case UPDATE_CONVERSATION:
             return {
@@ -28,6 +30,7 @@ export function conversations(state: IConversationsState = defaultConversation()
 function defaultConversation() {
 
     return {
-        list: []
+        list: [],
+        totalUnseenMessages: 0
     }
 }

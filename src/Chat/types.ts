@@ -17,6 +17,7 @@ export interface IConversationMessage {
 
 export interface IConversationsState {
   list: IConversation[],
+  totalUnseenMessages: number;
   timer?: NodeJS.Timer
 }
 

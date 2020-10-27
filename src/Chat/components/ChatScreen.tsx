@@ -7,7 +7,7 @@ import ChatInput from './ChatInput';
 import { IConversation } from './../types';
 //import { makeFetchConversationsList } from './actions/makeFetchConversations';
 import {AttendeesList} from './AttendeesList';
-import {ChatMessages} from './ChatMesssages';
+import ChatMessages from './ChatMesssages';
 
 interface ChatScreenProps {
   match: any;
@@ -39,7 +39,10 @@ class ChatScreen extends React.Component<ChatScreenProps> {
     return (
       <Fragment>
         <h1>Chat</h1>
-        <ChatMessages messages={conversation.messages} />
+        <ChatMessages 
+          messages={conversation.messages}
+          conversationId={conversation._id}
+        />
         <ChatInput conversation={conversation} />
         <AttendeesList users={conversation.targets}/>
       </Fragment>

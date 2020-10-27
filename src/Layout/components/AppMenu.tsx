@@ -2,7 +2,7 @@ import { AppBar, Toolbar, Typography, Grid } from '@material-ui/core';
 import { Forum } from '@material-ui/icons';
 import React from 'react';
 import { ContactListButton } from './ContactListButton';
-import { ProfileButton } from './ProfileButton';
+import ProfileButton from './ProfileButton';
 import { DrawerContentString } from '../types';
 import ChatButton from './ChatButton';
 import { connect } from 'react-redux';

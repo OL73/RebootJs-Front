@@ -1,4 +1,5 @@
 import { Box, Button, Container, Grid, TextField } from '@material-ui/core';
+import { Alert } from '../../Layout/components/Alert';
 import React from 'react';
 import { connect } from 'react-redux';
 import { login } from '../../api/users';
@@ -10,6 +11,7 @@ interface LoginFormProps {
 }
 
 interface LoginFormState {
+  status: 'ready' | 'error' | 'success';
   email: string;
   password: string;
 }
@@ -17,6 +19,7 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
   constructor(props: LoginFormProps){
     super(props)
     this.state = {
+      status: "ready",
       email: "",
       password: ""
     }
@@ -33,15 +36,32 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
     event.preventDefault();
 
     await login(this.state.email, this.state.password)
-      .then(_user => history.push('/profile'));
+      .then(_user => history.push('/profile'))
+      .catch(err => {
+        console.log('email or password invalid', err);
+        const status = 'error';
+        this.setState({
+           status
+        })
+      })
 
     // déclenchement de makeInitMap() getConnectionsList() + getUsersList() + getConnectedUser() + timer
     this.props.initApp();
   }
 
   render(){
+
+    const { status } = this.state;
+
     return (
       <Container maxWidth="xs">
+        <Box style={{ margin: '2rem 0' }}>
+          <Alert
+            status={status}
+            error="Oops, email or password invalid !"
+            //success={`You're registered! Please login`}
+          />
+        </Box>
         <form onSubmit={this.handleSubmit} >
           <Box style={{margin: "2rem 0"}}>
             <TextField

@@ -25,6 +25,16 @@ export function login(email: string, password: string): Promise<IUser>{
   ).then(res => res.data)
 }
 
+export function logout() {
+
+  return axios.get(
+    'http://localhost:3000/api/login/logout',
+    {
+      withCredentials: true
+    }
+  ).then(res => console.log(res));
+}
+
 export function register(email: string, firstname: string, lastname: string, password: string): Promise<IUser>{
   return axios.post(
     'http://localhost:3000/api/users/',

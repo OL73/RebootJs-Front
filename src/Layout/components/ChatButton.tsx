@@ -16,7 +16,7 @@ interface ChatButtonProps {
 const ChatButton: React.FunctionComponent<ChatButtonProps> = ({ toggleDrawer, unseenMessage }) => {
     return (
 
-        <Link to="/conversation">
+        <Link to="/">
             <Badge badgeContent={unseenMessage} color="secondary">
                 <IconButton aria-label="conversation" onClick={e => toggleDrawer('conversations')}>
                     <ChatIcon fontSize="large" />

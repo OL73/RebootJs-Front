@@ -8,8 +8,8 @@ export interface IUser {
 }
 
 export interface IUsersState {
-  list: IUser[]
-  connectedUser?: IUser
+  list: IUser[];
+  connectedUser?: IUser;
 }
 
 export const UPDATE_CONNECTED_USER = 'UPDATE_CONNECTED_USER';

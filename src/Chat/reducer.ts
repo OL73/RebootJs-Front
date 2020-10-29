@@ -1,4 +1,4 @@
-import { IConversationsState, IConversationsAction, UPDATE_CONVERSATIONS_LIST, UPDATE_CONVERSATION, UPDATE_POLLING_TIMER } from './types';
+import { IConversationsState, IConversationsAction, UPDATE_CONVERSATIONS_LIST, UPDATE_CONVERSATION } from './types';
 
 export function conversations(state: IConversationsState = defaultConversation(), action: IConversationsAction): IConversationsState {
     switch (action.type) {
@@ -16,11 +16,11 @@ export function conversations(state: IConversationsState = defaultConversation()
                     action.conversation
                 ]
             }
-        case UPDATE_POLLING_TIMER:
+        /* case UPDATE_POLLING_TIMER: ===> supprimé, utlisation du socket IO dans messagesRoutes côté back
             return {
                 ...state,
                 timer: action.timer
-            }
+            } */
         default:
             return state;
     }

@@ -7,6 +7,7 @@ import UsersListItem from './UsersListItem';
 
 interface UsersListProps {
   users: IUser[];
+  connectedUser?: IUser;
 }
 
 interface UsersListState {
@@ -34,14 +35,21 @@ class UsersList extends React.Component<UsersListProps, UsersListState>{
       return <h1>Loading</h1>
     } else {
       return <List>
-        {this.props.users.map((user, index) => <UsersListItem key={index} user={user} />)}
+        {this.props.users.map((user, index) => 
+          (<UsersListItem 
+            key={index} 
+            user={user} 
+            connectedUser={this.props.connectedUser}
+          />)
+        )}
       </List>
     }
   }
 }
 
 const mapStoreToProps = (state:IAppState) => ({
-users: state.users.list
+users: state.users.list,
+connectedUser: state.users.connectedUser
 })
 
 export default connect(mapStoreToProps)(UsersList);

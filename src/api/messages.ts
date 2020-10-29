@@ -5,7 +5,7 @@ import { IConversation } from "../Chat/types";
 export async function getConversations(): Promise<IConversation[]> {
   // TODO
   // axios vers le back pour récuperer les messages
-  const res = await axios.get('http://localhost:3000/api/messages', { withCredentials: true });
+  const res = await axios.get(`http://localhost:3000/api/messages`, { withCredentials: true });
   const messages: IConversationMessage[] = res.data;
 
   // processus de transformation des messages -> une liste de conversations

@@ -18,12 +18,12 @@ export interface IConversationMessage {
 export interface IConversationsState {
   list: IConversation[],
   totalUnseenMessages: number;
-  timer?: NodeJS.Timer
+  /* timer?: NodeJS.Timer ===> supprimé, utlisation du socket IO dans messagesRoutes côté back */
 }
 
 export const UPDATE_CONVERSATIONS_LIST = 'UPDATE_CONVERSATIONS_LIST';
 export const UPDATE_CONVERSATION = 'UPDATE_CONVERSATION';
-export const UPDATE_POLLING_TIMER = 'UPDATE_POLLING_TIMER';
+/* export const UPDATE_POLLING_TIMER = 'UPDATE_POLLING_TIMER'; ===> supprimé, utlisation du socket IO dans messagesRoutes côté back */
 
 export interface IUpdateConversationsListAction {
 
@@ -36,12 +36,22 @@ export interface IUpdateConversationAction {
   conversation: IConversation
 }
 
-export interface IUpdatePollingTimerAction {
+/* export interface IUpdatePollingTimerAction { ===> supprimé, utlisation du socket IO dans messagesRoutes côté back
   type: typeof UPDATE_POLLING_TIMER,
   timer: NodeJS.Timeout;
-}
+} */
+
+/* ===> fichier updatePollingTimer.ts supprimé, utlisation du socket IO dans messagesRoutes côté back
+import { IUpdatePollingTimerAction, UPDATE_POLLING_TIMER } from "./../../types";
+
+export function updatePollingTimer(timer: NodeJS.Timeout): IUpdatePollingTimerAction{
+  return {
+    type: UPDATE_POLLING_TIMER,
+    timer: timer
+  }
+} */
 
 export type IConversationsAction = 
   IUpdateConversationsListAction 
-  | IUpdateConversationAction
-  | IUpdatePollingTimerAction;
+  | IUpdateConversationAction;
+  /* | IUpdatePollingTimerAction ===> supprimé, utlisation du socket IO dans messagesRoutes côté back */

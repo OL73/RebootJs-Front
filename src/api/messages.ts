@@ -34,7 +34,7 @@ export async function getConversations(): Promise<IConversation[]> {
 
   //// ----------- Fin 1ERE ETAPE ----------
 
-  // ---------------
+  // ----------
   // 2eme étape : Créer les types depuis la liste de messages, restructure
   // { 123: [message, message2], 12345: [xxx], 1234: [xxx] } => [ conversation1, conversation2 ]
 

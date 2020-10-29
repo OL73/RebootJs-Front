@@ -7,7 +7,7 @@ import { updateConversation } from '../../Chat/components/actions/updateConversa
 
 export function makeStartSocket(){
   return (dispatch: any, getState: () => IAppState) => {
-    const socketServer = io.connect('http://localhost:3000');
+    const socketServer = io.connect(`${process.env.REACT_APP_BACKEND}`);
 
     socketServer.on('connect', () => {
       console.log('Je suis bien connecté au back');
@@ -20,7 +20,7 @@ export function makeStartSocket(){
     // reponse au socket emit dans le route post /api/messages côté back
     socketServer.on('new-message', ({message}: {message: IConversationMessage}) => {
       const conversations = getState().conversations.list;
-      
+
       // on récupère la conversation de la liste qui correspond au conversationId reçu par la socket
       const conversation = conversations.find(conv => conv._id === message.conversationId);
 

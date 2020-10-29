@@ -32,7 +32,7 @@ export async function getConversations(): Promise<IConversation[]> {
   // 2eme etape : Prendre chaque tableau créés précédemment pour créer un nouvel object IConversation (avec les attributs qu'il faut)
   // { 123: [xxx], 12345: [xxx], 1234: [xxx] }
 
-  //// ----------- Fin 1ERE ETAPE ----------
+  //// ---------- Fin 1ERE ETAPE ---------
 
   // ------
   // 2eme étape : Créer les types depuis la liste de messages, restructure

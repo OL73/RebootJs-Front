@@ -14,7 +14,7 @@ import { ErrorScreen } from '../../Layout/components/ErrorScreen';
 import history from '../../history';
 import { updateConnectedUser } from '../actions/updateConnectedUser';
 import { IAppState } from '../../appReducer';
-import { IUser } from '../types';
+import { IUser } from './../types';
 import { connect } from 'react-redux';
 
 interface ProfileScreenProps {

@@ -1,4 +1,4 @@
-import { IUsersAction, IUsersState, UPDATED_USERS_LIST, UPDATE_CONNECTED_USER } from "./../Users/types";
+import { IUsersAction, IUsersState, UPDATED_USERS_LIST, UPDATE_CONNECTED_USER } from "./types";
 
 export function users(state: IUsersState = defaultUsersState(), action: IUsersAction): IUsersState {
   switch(action.type){

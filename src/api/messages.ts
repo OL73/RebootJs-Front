@@ -60,7 +60,7 @@ export async function getConversations(): Promise<IConversation[]> {
 
   return conversations;
 
-  /* return Promise.resolve([{
+  /* return Promise.resolve([{  
     _id: '1234',
     targets: ['5f8eb08e8bf2813b9e235976', '5f8eb0b28bf2813b9e235977'],
     updatedAt: new Date(),

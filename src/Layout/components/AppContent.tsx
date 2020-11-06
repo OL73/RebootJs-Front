@@ -7,19 +7,22 @@ import UsersList from '../../Users/components/UsersList';
 import { ErrorScreen } from './ErrorScreen';
 import Todos from '../../todos/components/todos';
 import ConversationsList from '../../Chat/components/ConversationsList';
+import { Container } from '@material-ui/core';
 
 class AppContent extends React.Component {
-  render(){
+  render() {
     return (
-      <Switch>
-        <Route path="/login" component={LoginScreen} />
-        <Route path="/users" component={UsersList} />
-        <Route path="/profile" component={ProfileScreen} />
-        <Route path="/conversationsList" component={ConversationsList} />
-        <Route path="/conversation/:conversationID" component={ChatScreen} />
-        <Route exact path="/" component={Todos} />
-        <Route><ErrorScreen errorMessage='Oops ! It seems like we did not find this page!'/></Route>
-      </Switch>
+      <Container maxWidth="lg">
+        <Switch>
+          <Route path="/login" component={LoginScreen} />
+          <Route path="/users" component={UsersList} />
+          <Route path="/profile" component={ProfileScreen} />
+          <Route path="/conversationsList" component={ConversationsList} />
+          <Route path="/conversation/:conversationID" component={ChatScreen} />
+          <Route exact path="/" component={Todos} />
+          <Route><ErrorScreen errorMessage='Oops ! It seems like we did not find this page!' /></Route>
+        </Switch>
+      </Container>
     )
   }
 }

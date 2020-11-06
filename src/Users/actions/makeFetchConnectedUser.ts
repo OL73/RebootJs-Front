@@ -5,7 +5,7 @@ import { updateConnectedUser } from "./updateConnectedUser";
 // dans la mesure où le reducer ne peut pas être asynchrone
 export function makeFetchConnectedUser() {
   return async (dispatch: any) => {
-    try{
+    try {
       const connectedUser = await getConnectedUser();
       dispatch(updateConnectedUser(connectedUser))
     } catch (err) {

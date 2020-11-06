@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import { Divider, Grid, List, TextField } from '@material-ui/core';
+import React, { Component, Fragment } from 'react';
 import Todo from './todo';
 
 const todos = [
@@ -28,49 +29,55 @@ class Todos extends Component<{}, ITodosState>{
     }
 
     handleComplete = (todo: any) => {
-        const todos =  [...this.state.todos]
+        const todos = [...this.state.todos]
         const index = todos.indexOf(todo);
-        todos[index] = { ...todo, isDone: !todo.isDone}
+        todos[index] = { ...todo, isDone: !todo.isDone }
         console.log(todos[index]);
         this.setState({ todos });
     }
 
     addTodo = (e: any) => {
-       if (e.key === 'Enter') {
-           const newTask = {
-               task: e.target.value,
-               isDone: false
-           }
-           const todos = [...this.state.todos];
-           todos.push(newTask);
-           e.target.value = '';
-           
-           this.setState({ todos });
-       }
+        if (e.key === 'Enter') {
+            const newTask = {
+                task: e.target.value,
+                isDone: false
+            }
+            const todos = [...this.state.todos];
+            todos.push(newTask);
+            e.target.value = '';
+
+            this.setState({ todos });
+        }
     }
 
     render() {
         return (
-            <>
+            <Fragment>
                 <h1>Liste des taches :</h1>
-                <ul className="list-group">
+                <List>
                     {this.state.todos.map((todo, index) => (
-                        <Todo
-                            key={todo.task}
-                            todo={todo}
-                            onComplete={() => this.handleComplete(todo)}
-                        />
+                        <div key={index}>
+                            <Todo
+                                todo={todo}
+                                checked={todo.isDone}
+                                onComplete={() => this.handleComplete(todo)}
+                            />
+                            <Divider variant="inset" component="li" />
+                        </div>
                     ))}
-                </ul>
-                <div className="list-group d-flex align-items-center my-3">
-                    <input 
-                        type="text" 
-                        className="list-group-item col-10" 
-                        placeholder="ajouter un todo..." 
-                        onKeyDown={(e) => this.addTodo(e)}
-                    />
-                </div>
-            </>
+                </List>
+                <Grid container item sm={12}>
+                    <Grid item sm={6} style={{ margin: 'auto' }}>
+                        <TextField
+                            fullWidth
+                            type="text"
+                            variant="filled"
+                            label="ajouter un todo..."
+                            onKeyDown={(e) => this.addTodo(e)}
+                        />
+                    </Grid>
+                </Grid>
+            </Fragment>
         );
     }
 }

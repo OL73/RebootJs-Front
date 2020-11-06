@@ -1,4 +1,4 @@
-import { AppBar, Toolbar, Typography, Grid } from '@material-ui/core';
+import { AppBar, Toolbar, Typography, Grid, Hidden } from '@material-ui/core';
 import { Forum } from '@material-ui/icons';
 import React from 'react';
 import { ContactListButton } from './ContactListButton';
@@ -14,31 +14,35 @@ interface AppMenuProps {
 }
 
 const AppMenu: React.SFC<AppMenuProps> = ({ toggleDrawer, firstname }) => {
-    return (
-      <AppBar position="static" style={{ height: '10vh' }}>
-        <Grid container justify="space-between" alignItems="center" style={{ height: '100%' }}>
-          <Grid item>
-            <Toolbar>
-              <Forum fontSize="large" />
-              <Typography variant="h3"> Enigma.</Typography>
-            </Toolbar>
-          </Grid>
-          <Grid item>
-            <Typography>{firstname}</Typography>
-          </Grid>
-          <Grid item>
-            <Toolbar>
-              <ChatButton toggleDrawer={toggleDrawer}/>
-              <ContactListButton toggleDrawer={toggleDrawer}/>
-              <ProfileButton />
-            </Toolbar>
-          </Grid>
+
+  return (
+    <AppBar position="static" style={{ height: '10vh' }}>
+      <Grid container justify="space-between" alignItems="center" style={{ height: '100%' }}>
+        <Grid item>
+          <Toolbar>
+            <Forum fontSize="large" />
+            <Typography variant="h3">ola</Typography>
+          </Toolbar>
         </Grid>
-      </AppBar>
-    )
+        <Grid item>
+          <Typography>{firstname}</Typography>
+        </Grid>
+        <Grid item>
+          <Toolbar>
+            <Hidden xsDown>
+              <ChatButton toggleDrawer={toggleDrawer} />
+              <ContactListButton toggleDrawer={toggleDrawer} />
+              <ProfileButton />
+            </Hidden>
+          </Toolbar>
+        </Grid>
+      </Grid>
+    </AppBar>
+  )
 }
 
-const mapStateToProps = (state :any) => ({
+const mapStateToProps = (state: any) => ({
   firstname: state.users.connectedUser?.firstname
 })
+
 export default connect(mapStateToProps)(AppMenu);

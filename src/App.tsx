@@ -25,6 +25,7 @@ const theme = createMuiTheme({
 (store.dispatch as ThunkDispatch<IAppState, void, Action>)(makeInitApp());
 
 function App() {
+
   return (
     <Provider store={store}>
       <Router history={history}>

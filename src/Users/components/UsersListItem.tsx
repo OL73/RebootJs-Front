@@ -1,4 +1,4 @@
-import { Button } from '@material-ui/core';
+import { Button, Grid } from '@material-ui/core';
 import React from 'react';
 import { connect } from 'react-redux';
 import { updateConversation } from '../../Chat/components/actions/updateConversation';
@@ -17,10 +17,10 @@ class UsersListItem extends React.Component<UsersListItemProps> {
 
   createConversation = (user: IUser) => {
     const { connectedUser } = this.props;
-    if(!connectedUser) { return }
+    if (!connectedUser) { return }
 
     // crée une conversation dans la liste des conversations
-    const conversation : IConversation = {
+    const conversation: IConversation = {
       _id: generateConversationId(connectedUser._id, user._id),
       messages: [],
       targets: [user._id, connectedUser._id],
@@ -36,20 +36,22 @@ class UsersListItem extends React.Component<UsersListItemProps> {
   render() {
     const user = this.props.user;
     return (
-      <Button onClick={(_e) => this.createConversation(user)}>
-        <UserDetails id={user._id} />
-      </Button>
+      <Grid container direction='column'>
+        <Button onClick={(_e) => this.createConversation(user)}>
+          <UserDetails id={user._id} />
+        </Button>
+      </Grid>
     )
   }
 }
 
 // pour générer un id de conversation avec la fonction btoa(...)
-function generateConversationId(connectedUserId: string, targetId: string){
+function generateConversationId(connectedUserId: string, targetId: string) {
   return btoa(`${connectedUserId}_${targetId}_${new Date().toISOString()}`);
 }
 
 const mapDispatchToProps = (dispatch: any) => ({
-updateConversation: (conversation: IConversation) => dispatch(updateConversation(conversation))
+  updateConversation: (conversation: IConversation) => dispatch(updateConversation(conversation))
 });
 
 export default connect(undefined, mapDispatchToProps)(UsersListItem)

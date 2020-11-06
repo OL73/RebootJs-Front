@@ -12,7 +12,7 @@ interface DrawerProps {
   content?: DrawerContentString;
 }
 
-export const drawerWidth = 500;
+export const drawerWidth = 350;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

@@ -22,6 +22,10 @@ class ConversationsList extends React.Component<ConversationsListProps, {}> {
     } */
 
     render() {
+
+        /* const filteredUsers = this.props.conversations.filter(conversation => conversation.targets[0] !== this.props.user?._id);
+        console.log(filteredUsers); */
+
         if (!this.props.user) return <Alert severity='warning'>Please, login <Link to='/login'>here</Link> !</Alert>
 
         if (this.props.conversations.length === 0) {

@@ -1,3 +1,11 @@
 .completeTodo {
   text-decoration: line-through;
 }
+
+.unseenMessages {
+  font-size: 1rem;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 501;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
+}

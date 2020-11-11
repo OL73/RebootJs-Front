@@ -8,12 +8,16 @@ import { IConversation } from './../types';
 //import { makeFetchConversationsList } from './actions/makeFetchConversations';
 import {AttendeesList} from './AttendeesList';
 import ChatMessages from './ChatMesssages';
+import { Divider } from '@material-ui/core';
+import { IUser } from '../../Users/types';
 
 interface ChatScreenProps {
   match: any;
   history: any;
   location: any;
   conversation?: IConversation;
+  users: IUser[];
+  connectedUser?: IUser
 }
 
 
@@ -33,28 +37,34 @@ class ChatScreen extends React.Component<ChatScreenProps> {
   }
 
   render(){
-    const { conversation } = this.props;
+    const { conversation, users, connectedUser } = this.props;
     if(!conversation) return <Loading />
 
     return (
       <Fragment>
-        <h1>Chat</h1>
+        <AttendeesList 
+          users={conversation.targets} 
+          connectedUser={connectedUser?._id}
+        />
+        <Divider />
         <ChatMessages 
           messages={conversation.messages}
           conversationId={conversation._id}
+          users={users}
         />
         <ChatInput conversation={conversation} />
-        <AttendeesList users={conversation.targets}/>
       </Fragment>
     )
   }
 }
 
-const mapStoreToProps = ({conversations}: IAppState, props: ChatScreenProps) => {
+const mapStoreToProps = ({conversations, users}: IAppState, props: ChatScreenProps) => {
   const conversationID = props.match.params.conversationID;
 
   return {
-    conversation: conversations.list.find(conv => conv._id === conversationID)
+    conversation: conversations.list.find(conv => conv._id === conversationID),
+    users: users.list,
+    connectedUser: users.connectedUser
   }
 }
 

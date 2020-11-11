@@ -2,8 +2,17 @@ import { List } from '@material-ui/core';
 import UserDetails from '../../Users/components/UserDetails'
 import React from 'react';
 
-export function AttendeesList({users} : {users: string[]}){
+export interface AttendeesListProps {
+  users: string[];
+  connectedUser?: string;
+}
+
+export function AttendeesList({users, connectedUser}: AttendeesListProps){
+
+  const filteredUsers = users.filter(users => users !== connectedUser);
+
+
   return <List>
-    {users.map((userId,index) => <UserDetails key={index} id={userId} />)}
+    {filteredUsers.map((userId,index) => <UserDetails key={index} id={userId}/>)}
   </List>
 }

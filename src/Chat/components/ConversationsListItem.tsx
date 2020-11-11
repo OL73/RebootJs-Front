@@ -35,7 +35,7 @@ const ConversationsListItem: React.FunctionComponent<ConversationsListItemProps>
     let recipients: IUser[] = [];
 
     if (users) {
-        
+
         for (let i = 0; i < users.length; i++) {
             for (let j = 0; j < targets.length; j++) {
                 if (targets[j] === users[i]._id) {
@@ -49,21 +49,22 @@ const ConversationsListItem: React.FunctionComponent<ConversationsListItemProps>
         <ListItem
             divider
             button
+            onClick={verifyUnseenMessage} // TODO changer la logique vers ChatMessages
             component={Link}
             to={`/conversation/${conversation._id}`}
-            onClick={verifyUnseenMessage}
-            key={conversation._id}> 
-            <ListItemText 
+            key={conversation._id}>
+            <ListItemText
                 /*  1ère logique 
                 primary={ 
                     `${whoSentLastMessage?.firstname[0].toUpperCase().concat(whoSentLastMessage?.firstname.slice(1,))} 
                     ${whoSentLastMessage?.lastname[0].toUpperCase().concat(whoSentLastMessage?.lastname.slice(1,))}`
                 } */
-                
+
                 /* 2nde logique */
-                primary={ recipients.map(recipient => 
+                primary={recipients.map((recipient, index) =>
                     `${recipient.firstname[0].toUpperCase().concat(recipient.firstname.slice(1,))}
-                    ${recipient.lastname[0].toUpperCase().concat(recipient.lastname.slice(1,))}`
+                    ${recipient.lastname[0].toUpperCase().concat(recipient.lastname.slice(1,))} ${recipients.length > 1 && index !== recipients.length - 1 ? ' - ' : ''}
+                    ${conversation.unseenMessages > 0 ? conversation.unseenMessages: ''}`
                 )}
 
                 secondary={conversation.messages[conversation.messages.length - 1].content}

@@ -31,11 +31,17 @@ class UsersList extends React.Component<UsersListProps, UsersListState>{
   }
 
   render(){
+
+    const { users, connectedUser} = this.props;
+
+    // on récupère tous les users à afficher sauf le user connecté
+    const filteredUsers = users.filter(users => users._id !== connectedUser?._id );
+
     if(this.props.users.length === 0){
-      return <h1>Loading</h1>
+      return <h1>Loading</h1> // TODO changer le loader
     } else {
       return <List>
-        {this.props.users.map((user, index) => 
+        {filteredUsers.map((user, index) => 
           (<UsersListItem 
             key={index} 
             user={user} 

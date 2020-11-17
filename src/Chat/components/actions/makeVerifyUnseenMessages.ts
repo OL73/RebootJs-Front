@@ -2,6 +2,8 @@ import { IAppState } from './../../../appReducer';
 import { updateConversationsList } from './updateConversationsList';
 
 export function makeVerifyUnseenMessages() {
+    console.log('fonction makeVerifyUnseenMessages() appelée');
+    
 
     return (dispatch: any, getState: () => IAppState) => {
 
@@ -11,7 +13,7 @@ export function makeVerifyUnseenMessages() {
         if (!connectedUser)  { return }
 
         const updatedConversations = conversations.map(conversation => {
-            const lastSeenDate = connectedUser.conversationsSeen[conversation._id]
+            const lastSeenDate = connectedUser.conversationsSeen[conversation._id];
             let unseenMessages;
             if (!lastSeenDate) {
                 unseenMessages = conversation.messages.length; // 0

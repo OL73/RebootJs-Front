@@ -31,7 +31,7 @@ export function ChatMessages({messages, conversationId, makeUpdateConversationSe
 
   useEffect( // équivalent à componentDidMount() + componentDidUpdate()
     () => {
-      makeUpdateConversationSeen(conversationId)
+      makeUpdateConversationSeen(conversationId) // après le clique sur une conversation, l'objet conversationsSeen inclus dans l'objet IUser ajoute la conversationId avec une nouvelle date
     },
     [messages.length, conversationId, makeUpdateConversationSeen]
   )

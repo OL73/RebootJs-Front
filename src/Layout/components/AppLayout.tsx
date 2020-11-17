@@ -4,6 +4,11 @@ import AppContent from './AppContent';
 import AppDrawer, { drawerWidth } from './AppDrawer';
 import AppMenu from './AppMenu';
 import { DrawerContentString } from '../types';
+import WelcomeUser from './WelcomeUser';
+import { IAppState } from '../../appReducer';
+import { connect } from 'react-redux';
+import { IUser } from '../../Users/types';
+import Footer from '../Footer';
 
 interface AppLayoutState {
   drawerOpened: boolean;
@@ -16,6 +21,7 @@ interface AppLayoutProps {
   /* getConnectedUser: () => void; ===============> logique déplacée dans makeInitApp()
   getUsers: () => void;
   getConversationsList: () => void; */
+  connectedUser?: IUser;
 }
 
 const style = (theme: Theme) => createStyles({
@@ -83,7 +89,11 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
           <AppMenu 
             toggleDrawer={this.toggleDrawer}
           />
+          <WelcomeUser 
+            connectedUser={this.props.connectedUser}
+          />
           <AppContent />
+          <Footer />
         </div>
         <AppDrawer
           open={this.state.drawerOpened}
@@ -95,6 +105,10 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
   }
 }
 
+const mapStoreToProps = ({users}: IAppState) => ({
+  connectedUser: users.connectedUser
+})
+
 // TODO ThunkAction<void, IAppState, unknown, Action<string>>
 /* const mapDispatchToProps = (dispatch: any) => ({ ===============> logique déplacée dans makeInitApp()
   getConnectedUser: () => { dispatch(makeFetchConnectedUser())}, // attention préaction avant l'updateUser
@@ -103,4 +117,4 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
 }) */
 
 // export default connect(undefined, mapDispatchToProps)(withStyles(style)(AppLayout)); ===============> logique déplacée dans makeInitApp()
-export default withStyles(style)(AppLayout)
+export default connect(mapStoreToProps)(withStyles(style)(AppLayout));

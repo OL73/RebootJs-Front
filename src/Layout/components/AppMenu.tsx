@@ -5,18 +5,14 @@ import { ContactListButton } from './ContactListButton';
 import ProfileButton from './ProfileButton';
 import { DrawerContentString } from '../types';
 import ChatButton from './ChatButton';
-import { connect } from 'react-redux';
-import { IAppState } from '../../appReducer';
-import { IUser } from '../../Users/types';
 import { Link } from 'react-router-dom';
 
 interface AppMenuProps {
 
   toggleDrawer: (content: DrawerContentString) => void;
-  connectedUser?: IUser;
 }
 
-const AppMenu: React.SFC<AppMenuProps> = ({ toggleDrawer, connectedUser }) => {
+const AppMenu: React.SFC<AppMenuProps> = ({ toggleDrawer }) => {
 
   return (
     <AppBar position="static" style={{ height: '10vh' }}>
@@ -33,13 +29,6 @@ const AppMenu: React.SFC<AppMenuProps> = ({ toggleDrawer, connectedUser }) => {
           </Link>
         </Grid>
         <Grid item>
-          <Typography
-            style={{ textTransform: 'capitalize' }}
-          >
-            {connectedUser ? `Bienvenue ${connectedUser?.firstname} :)` : ''}
-          </Typography>
-        </Grid>
-        <Grid item>
           <Toolbar>
             <Hidden xsDown>
               <ChatButton toggleDrawer={toggleDrawer} />
@@ -53,8 +42,4 @@ const AppMenu: React.SFC<AppMenuProps> = ({ toggleDrawer, connectedUser }) => {
   )
 }
 
-const mapStateToProps = (state: IAppState) => ({
-  connectedUser: state.users.connectedUser
-})
-
-export default connect(mapStateToProps)(AppMenu);
+export default AppMenu;

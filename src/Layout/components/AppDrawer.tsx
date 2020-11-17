@@ -2,14 +2,21 @@ import { makeStyles, Theme, createStyles, Drawer, Divider, IconButton } from '@m
 import { ChevronLeft } from '@material-ui/icons';
 import React from 'react';
 import UsersList from '../../Users/components/UsersList';
-import { Alert } from './Alert';
 import { DrawerContentString } from '../types';
 import ConversationsList from '../../Chat/components/ConversationsList';
+import { IAppState } from '../../appReducer';
+import { connect } from 'react-redux';
+import { IConversation } from '../../Chat/types';
+import Alert from '@material-ui/lab/Alert';
+import { IUser } from '../../Users/types';
+import { Link } from 'react-router-dom';
 
 interface DrawerProps {
   open: boolean,
   closeDrawer: () => void;
   content?: DrawerContentString;
+  conversations: IConversation[];
+  connectedUser?: IUser;
 }
 
 export const drawerWidth = 350;
@@ -34,22 +41,30 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-function AppDrawer({ open, closeDrawer, content }: DrawerProps){
+function AppDrawer({ open, closeDrawer, content, conversations, connectedUser }: DrawerProps) {
   const classes = useStyles();
 
   let contentComponent: any;
-  
-  if(content === "users"){
+
+  if (content === "users") {
 
     contentComponent = <UsersList />
 
-  } else if (content === "conversations") {
+  } else if (content === "conversations" && connectedUser) {
 
-    contentComponent = <ConversationsList />
+    if (conversations.length > 0) {
+
+      contentComponent = <ConversationsList />
+    } else {
+
+      contentComponent = <Alert severity='info'>Vous n'avez pas encore de conversation...</Alert>
+    }
 
   } else {
 
-    contentComponent = <Alert status='error' error="Drawer content invalid"/>
+    contentComponent = <Alert severity='warning'>Please, login <Link to='/login'>here</Link> !</Alert>
+    //contentComponent = <Alert status='error' error="Drawer content invalid"/>
+    //contentComponent = <Loading/>
   }
 
   return (
@@ -62,16 +77,21 @@ function AppDrawer({ open, closeDrawer, content }: DrawerProps){
       classes={{
         paper: classes.paper,
       }}
-      >
-        <div className={classes.drawerHeader}>
-          <IconButton onClick={closeDrawer}>
-            <ChevronLeft />
-          </IconButton>
-        </div>
-        <Divider />
-        {contentComponent}
+    >
+      <div className={classes.drawerHeader}>
+        <IconButton onClick={closeDrawer}>
+          <ChevronLeft />
+        </IconButton>
+      </div>
+      <Divider />
+      {contentComponent}
     </Drawer>
   )
 }
 
-export default AppDrawer;
+const mapStoreToProps = ({ users, conversations }: IAppState) => ({
+  conversations: conversations.list,
+  connectedUser: users.connectedUser
+})
+
+export default connect(mapStoreToProps)(AppDrawer);

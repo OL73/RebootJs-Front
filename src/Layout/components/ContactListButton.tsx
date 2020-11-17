@@ -6,7 +6,7 @@ import { DrawerContentString } from '../types';
 export function ContactListButton({ toggleDrawer }: {toggleDrawer: (content: DrawerContentString) => void}) {
   return (
     <IconButton aria-label="contacts" onClick={e => toggleDrawer("users")}>
-      <Contacts fontSize="large" />
+      <Contacts fontSize="large" style={ {color: 'white'} }/>
     </IconButton>
   );
 }

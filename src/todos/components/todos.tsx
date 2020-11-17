@@ -3,9 +3,15 @@ import React, { Component, Fragment } from 'react';
 import Todo from './todo';
 
 const todos = [
-    { task: 'terminer la journée 7', isDone: false },
-    { task: 'Apprendre ReactJs', isDone: false },
-    { task: 'Progresser avec RebootJS', isDone: false },
+    { task: 'créer une app type Messenger avec ReactJs, Typescript et Material-UI', isDone: true },
+    { task: 'Connecter l\'app au back-end développé avec NodeJs et MongoDB', isDone: true },
+    { task: 'Intégration et livraison continue avec Github, Travis et Heroku', isDone: true },
+    { task: 'Implémenter une authentification avec Passport côté back', isDone: true },
+    { task: 'Mettre en place Redux pour regrouper les données dans un store global', isDone: true },
+    { task: 'Utiliser les web sockets détecter les users connectés et les nouveaux messages', isDone: true },
+    { task: 'Ajouter des emojis aux messages', isDone: false },
+    { task: 'Personnaliser les détails du user avec une photo ou une image de son choix', isDone: false },
+    { task: 'Mettre en place le web RTC pour les appels en visio', isDone: false },
 ];
 
 /* export interface ITodosProps {
@@ -67,7 +73,7 @@ class Todos extends Component<{}, ITodosState>{
                     ))}
                 </List>
                 <Grid container item sm={12}>
-                    <Grid item sm={6} style={{ margin: 'auto' }}>
+                    <Grid item sm={6} style={{ margin: '30px auto' }}>
                         <TextField
                             fullWidth
                             type="text"

@@ -17,7 +17,7 @@ export const UPDATED_USERS_LIST = 'UPDATED_USERS_LIST';
 
 export interface IUpdateConnectedUserAction {
   type: typeof UPDATE_CONNECTED_USER,
-  user: IUser
+  user: IUser | undefined
 }
 
 export interface IUpdatedUsersAction {

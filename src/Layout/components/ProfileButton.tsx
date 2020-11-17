@@ -27,7 +27,7 @@ const ProfileButton: React.FunctionComponent<ProfileButtonProps> = ({ connectedU
   return (
     <Link to="/profile">
       <IconButton aria-label="profile">
-        <AccountCircle fontSize="large" />
+        <AccountCircle fontSize="large" style={ {color: 'white'} }/>
       </IconButton>
     </Link>
   )

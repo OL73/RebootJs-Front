@@ -18,8 +18,8 @@ import { IUser } from './../types';
 import { connect } from 'react-redux';
 
 interface ProfileScreenProps {
-  getConnectedUser: (user: IUser) => void;
-  user?: IUser
+  updateConnectedUser: (user: IUser | undefined) => void;
+  connectedUser?: IUser
 }
 
 interface ProfileScreenState {
@@ -109,8 +109,11 @@ class ProfileScreen extends React.Component<ProfileScreenProps, ProfileScreenSta
   handleLogout = async () => {
     console.log('logout');
     await logout();
-    if (this.props.user) this.props.getConnectedUser(this.props.user);
-    history.push('/login');
+    const logoutUser = undefined;
+    if (this.props.connectedUser) this.props.updateConnectedUser(logoutUser);
+    sessionStorage.removeItem('flint_messenger_cookie');
+    //document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    history.push('/');
   }
 
   render() {
@@ -172,11 +175,11 @@ class ProfileScreen extends React.Component<ProfileScreenProps, ProfileScreenSta
 }
 
 const mapStoreToProps = (state: IAppState) => ({
-  user: state.users.connectedUser
+  connectedUser: state.users.connectedUser
 })
 
 const mapDispatchToProps = (dispatch: any) => ({
-  getConnectedUser: (user: IUser) => { dispatch(updateConnectedUser(user)) }
+  updateConnectedUser: (user: IUser | undefined) => { dispatch(updateConnectedUser(user)) }
 })
 
 export default connect(mapStoreToProps, mapDispatchToProps)(ProfileScreen);

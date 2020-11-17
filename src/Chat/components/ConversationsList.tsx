@@ -10,11 +10,11 @@ import { IConversation } from '../types';
 import ConversationsListItem from './ConversationsListItem';
 
 export interface ConversationsListProps {
-    conversations: IConversation[]
-    user?: IUser
+    conversations: IConversation[];
+    user?: IUser;
 }
 
-class ConversationsList extends React.Component<ConversationsListProps, {}> {
+class ConversationsList extends React.Component<ConversationsListProps> {
 
     /* showDetailsMessage = (id: string) => { ==> logique déplacée dans ConversationsListitem
         console.log('conversationId', id);
@@ -22,7 +22,6 @@ class ConversationsList extends React.Component<ConversationsListProps, {}> {
     } */
 
     render() {
-
         /* const filteredUsers = this.props.conversations.filter(conversation => conversation.targets[0] !== this.props.user?._id);
         console.log(filteredUsers); */
 

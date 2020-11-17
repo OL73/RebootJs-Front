@@ -2,6 +2,7 @@ import { List } from '@material-ui/core';
 import React from 'react';
 import { connect } from 'react-redux';
 import { IAppState } from '../../appReducer';
+import { Loading } from '../../Layout/components/Loading';
 import { IUser } from '../types';
 import UsersListItem from './UsersListItem';
 
@@ -38,7 +39,8 @@ class UsersList extends React.Component<UsersListProps, UsersListState>{
     const filteredUsers = users.filter(users => users._id !== connectedUser?._id );
 
     if(this.props.users.length === 0){
-      return <h1>Loading</h1> // TODO changer le loader
+      return <Loading />
+
     } else {
       return <List>
         {filteredUsers.map((user, index) => 

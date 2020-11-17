@@ -14,7 +14,7 @@ export function getConnectedUser(): Promise<IUser>{
 
 export function login(email: string, password: string): Promise<IUser>{
   return axios.post(
-    `${process.env.REACT_APP_BACKEND}/api/login`,
+    `${process.env.REACT_APP_BACKEND}/api/auth/login`,
     {
       username: email,
       password: password
@@ -28,7 +28,7 @@ export function login(email: string, password: string): Promise<IUser>{
 export function logout() {
 
   return axios.get(
-    `${process.env.REACT_APP_BACKEND}/api/login/logout`,
+    `${process.env.REACT_APP_BACKEND}/api/auth/logout`,
     {
       withCredentials: true
     }

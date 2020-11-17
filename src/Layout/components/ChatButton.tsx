@@ -19,7 +19,7 @@ const ChatButton: React.FunctionComponent<ChatButtonProps> = ({ toggleDrawer, un
         <Link to="/">
             <Badge badgeContent={unseenMessage} color="secondary">
                 <IconButton aria-label="conversation" onClick={e => toggleDrawer('conversations')}>
-                    <ChatIcon fontSize="large" />
+                    <ChatIcon fontSize="large" style={ {color: 'white'} }/>
                 </IconButton>
             </Badge>
         </Link>

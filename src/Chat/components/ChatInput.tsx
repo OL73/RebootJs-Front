@@ -50,7 +50,10 @@ class ChatInput extends React.Component<ChatInputProps, ChatInputState> {
 
   render(){
     return (
-      <form onSubmit={(e) => this.handleSubmit(e)}>
+      <form 
+        onSubmit={(e) => this.handleSubmit(e)}
+        style={{position: 'absolute', bottom: '100px', width: '100%'}}      
+      >
         <Grid container spacing={1} alignItems="center" justify="space-between">
           <Grid item xs={9}>
             <TextField

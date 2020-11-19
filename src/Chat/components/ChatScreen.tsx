@@ -6,7 +6,7 @@ import { Loading } from '../../Layout/components/Loading';
 import ChatInput from './ChatInput';
 import { IConversation } from './../types';
 //import { makeFetchConversationsList } from './actions/makeFetchConversations';
-import {AttendeesList} from './AttendeesList';
+import { AttendeesList } from './AttendeesList';
 import ChatMessages from './ChatMesssages';
 import { Divider } from '@material-ui/core';
 import { IUser } from '../../Users/types';
@@ -36,29 +36,37 @@ class ChatScreen extends React.Component<ChatScreenProps> {
 
   }
 
-  render(){
+  render() {
     const { conversation, users, connectedUser } = this.props;
-    if(!conversation) return <Loading />
+    if (!conversation) return <Loading />
 
     return (
       <Fragment>
-        <AttendeesList 
-          users={conversation.targets} 
+        <AttendeesList
+          users={conversation.targets}
           connectedUser={connectedUser?._id}
         />
         <Divider />
-        <ChatMessages 
-          messages={conversation.messages}
-          conversationId={conversation._id}
-          users={users}
-        />
-        <ChatInput conversation={conversation} />
+        <div
+          style={{position: 'relative', minHeight: '100vh'}}
+        >
+          <div
+            style={{maxHeight: '75vh', overflow: 'scroll'}}
+          >
+            <ChatMessages
+              messages={conversation.messages}
+              conversationId={conversation._id}
+              users={users}
+            />
+          </div>
+          <ChatInput conversation={conversation} />
+        </div>
       </Fragment>
     )
   }
 }
 
-const mapStoreToProps = ({conversations, users}: IAppState, props: ChatScreenProps) => {
+const mapStoreToProps = ({ conversations, users }: IAppState, props: ChatScreenProps) => {
   const conversationID = props.match.params.conversationID;
 
   return {

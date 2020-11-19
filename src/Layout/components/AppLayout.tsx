@@ -8,7 +8,7 @@ import WelcomeUser from './WelcomeUser';
 import { IAppState } from '../../appReducer';
 import { connect } from 'react-redux';
 import { IUser } from '../../Users/types';
-import Footer from '../Footer';
+import Footer from './Footer';
 
 interface AppLayoutState {
   drawerOpened: boolean;
@@ -43,7 +43,7 @@ const style = (theme: Theme) => createStyles({
 });
 
 class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
-  constructor(props: AppLayoutProps){
+  constructor(props: AppLayoutProps) {
     super(props);
     this.state = {
       drawerOpened: false,
@@ -78,22 +78,28 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
     if(this.state.timer) { clearInterval(this.state.timer) };
   } */
 
-  render(){
+  render() {
     const contentClasses = [
       this.props.classes.content,
       this.state.drawerOpened && this.props.classes.contentShift
     ].join(" ");
     return (
       <Fragment>
-        <div className={contentClasses}>
-          <AppMenu 
+        <div
+          className={contentClasses}
+        >
+          <AppMenu
             toggleDrawer={this.toggleDrawer}
           />
-          <WelcomeUser 
+          <WelcomeUser
             connectedUser={this.props.connectedUser}
           />
-          <AppContent />
-          <Footer />
+          <div
+            style={{minHeight: '100vh', position: 'relative'}}
+          >
+            <AppContent />
+            <Footer />
+          </div>
         </div>
         <AppDrawer
           open={this.state.drawerOpened}
@@ -105,7 +111,7 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
   }
 }
 
-const mapStoreToProps = ({users}: IAppState) => ({
+const mapStoreToProps = ({ users }: IAppState) => ({
   connectedUser: users.connectedUser
 })
 

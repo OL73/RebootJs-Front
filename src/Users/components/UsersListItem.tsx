@@ -19,6 +19,11 @@ class UsersListItem extends React.Component<UsersListItemProps> {
 
   testExistingConversation = () => {
 
+    if (this.props.conversations.length === 0) {
+      console.log('no conversation yet !!!');
+      this.createConversation(this.props.user);
+    }
+
     for (let i = 0; i < this.props.conversations.length; i++) {
 
       for (const target of this.props.conversations[i].targets) {
@@ -30,8 +35,8 @@ class UsersListItem extends React.Component<UsersListItemProps> {
           history.push(`/conversation/${this.props.conversations[i]._id}`);
 
           return;
-        } 
-
+        }
+        
         // si pas de conversations existantes on en crée une
         this.createConversation(this.props.user);
       }
@@ -42,6 +47,7 @@ class UsersListItem extends React.Component<UsersListItemProps> {
     const { connectedUser } = this.props;
     if (!connectedUser) { return }
 
+    
     // crée une conversation dans la liste des conversations
     const conversation: IConversation = {
       _id: generateConversationId(connectedUser._id, user._id),
@@ -50,7 +56,8 @@ class UsersListItem extends React.Component<UsersListItemProps> {
       updatedAt: new Date(),
       unseenMessages: 0
     };
-    // on l'ajoute a la liste en dispatchant la bonne action
+
+    // Dès la création de la conversation on l'ajoute a la liste (en créant systématiquement la clé conversationsSeen avec l'id de la conversation et la date) en dispatchant la bonne action
     this.props.updateConversation(conversation);
 
     history.push(`/conversation/${conversation._id}`);
@@ -83,4 +90,4 @@ const mapDispatchToProps = (dispatch: any) => ({
   updateConversation: (conversation: IConversation) => dispatch(updateConversation(conversation))
 });
 
-export default connect(mapStoreToProps, mapDispatchToProps)(UsersListItem)
+export default connect(mapStoreToProps, mapDispatchToProps)(UsersListItem);

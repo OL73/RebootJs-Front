@@ -13,6 +13,15 @@ export function makeVerifyUnseenMessages() {
         if (!connectedUser)  { return }
 
         const updatedConversations = conversations.map(conversation => {
+
+            // cas où le new user n'a pas encore de lastSeenDate
+            // vérification nécessaire si new user avec une conversation créée par un autre user
+            if (!connectedUser.conversationsSeen) {
+                connectedUser.conversationsSeen = {
+                    [`${conversation._id}`]: new Date(Date.now())
+                }
+            }
+            
             const lastSeenDate = connectedUser.conversationsSeen[conversation._id];
             let unseenMessages;
             if (!lastSeenDate) {

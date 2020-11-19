@@ -73,7 +73,7 @@ class Todos extends Component<{}, ITodosState>{
                     ))}
                 </List>
                 <Grid container item sm={12}>
-                    <Grid item sm={6} style={{ margin: '30px auto' }}>
+                    <Grid item sm={6} style={{ margin: '30px auto 100px auto' }}>
                         <TextField
                             fullWidth
                             type="text"

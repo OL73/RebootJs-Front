@@ -12,7 +12,9 @@ import { Container } from '@material-ui/core';
 class AppContent extends React.Component {
   render() {
     return (
-      <Container maxWidth="lg">
+      <Container
+        maxWidth="lg"
+      >
         <Switch>
           <Route path="/login" component={LoginScreen} />
           <Route path="/users" component={UsersList} />
